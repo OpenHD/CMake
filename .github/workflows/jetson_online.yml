@@ -39,7 +39,8 @@ jobs:
         import_github_env: true
         commands: |
           ls -a
-          cd /opt/CMake
+          cd /opt/CMake 
+          git checkout 8887ebc69b86606b388272d5c89ce11753bb4804
           apt update
           apt upgrade -y
           apt install -y cmake tree
@@ -48,6 +49,9 @@ jobs:
           mkdir build
           cd build
           tree
+          cmake -DBUILD_QtDialog=ON -DQT_QMAKE_EXECUTABLE=/usr/lib/qt5/bin/qmake ../
+          make -j4 install
+          git checkout master
           cmake -DBUILD_QtDialog=ON -DQT_QMAKE_EXECUTABLE=/usr/lib/qt5/bin/qmake ../
           make DESTDIR=cmake-package -j4 install
           fpm -a arm64 -s dir -t deb -n cmake -v 3.22.5 -C cmake-package -p cmake_VERSION_ARCH.deb
