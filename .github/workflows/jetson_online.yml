@@ -40,6 +40,7 @@ jobs:
         commands: |
           ls -a
           cd /opt/CMake 
+          git config --global --add safe.directory /opt/CMake
           git checkout 8887ebc69b86606b388272d5c89ce11753bb4804
           apt update
           apt upgrade -y
@@ -51,7 +52,6 @@ jobs:
           tree
           cmake -DBUILD_QtDialog=ON -DQT_QMAKE_EXECUTABLE=/usr/lib/qt5/bin/qmake ../
           make -j4 install
-          git config --global --add safe.directory /opt/CMake
           git checkout master
           cmake -DBUILD_QtDialog=ON -DQT_QMAKE_EXECUTABLE=/usr/lib/qt5/bin/qmake ../
           make DESTDIR=cmake-package -j4 install
