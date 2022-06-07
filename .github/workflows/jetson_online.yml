@@ -58,7 +58,18 @@ jobs:
           fpm -a arm64 -s dir -t deb -n cmake -v 3.13.3 -C cmake-package -p cmake_VERSION_ARCH.deb
           ls -a
           realpath cmake_3.13.3_arm64.deb
-          
+
+    - name: Upload to Github
+      uses: 'actions/upload-artifact@v2'
+      with:
+        name: "QOpenHd"
+        path: |
+          CMake/*.deb
+          CMake/old/*.deb
+          CMake/old/build/*.deb
+          *.deb
+        if-no-files-found: error
+
     - name: Push
       id: push
       uses: cloudsmith-io/action@master
@@ -71,4 +82,4 @@ jobs:
         distro: "ubuntu"
         release: "bionic"
         republish: "true" # needed ONLY if version is not changing
-        file: "CMake/old/CMake/*.deb"
+        file: "CMake/old/CMake/build/*.deb"
