@@ -64,12 +64,8 @@ jobs:
       with:
         name: "QOpenHd"
         path: |
-          CMake/*.deb
-          CMake/old/*.deb
-          CMake/old/build/*.deb
-          *.deb
-        if-no-files-found: error
-
+          CMake/old/CMake/build/*.deb
+          
     - name: Push
       id: push
       uses: cloudsmith-io/action@master
