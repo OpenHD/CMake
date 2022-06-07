@@ -42,11 +42,12 @@ jobs:
           cd /opt/CMake
           apt update
           apt upgrade -y
-          apt install -y cmake
+          apt install -y cmake tree
           apt install -y libssl-dev openssl1.0
           apt install -y qt5-default
           mkdir build
           cd build
+          tree
           cmake -DBUILD_QtDialog=ON -DQT_QMAKE_EXECUTABLE=/usr/lib/qt5/bin/qmake ../cmake-*
           make DESTDIR=cmake-package -j4 install
           fpm -a arm64 -s dir -t deb -n cmake -v 3.22.5 -C cmake-package -p cmake_VERSION_ARCH.deb
