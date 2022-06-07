@@ -54,12 +54,9 @@ jobs:
           cd build
           tree
           cmake -DBUILD_QtDialog=ON -DQT_QMAKE_EXECUTABLE=/usr/lib/qt5/bin/qmake ../
-          make -j4 install
-          cd ../../../
-          cmake -DBUILD_QtDialog=ON -DQT_QMAKE_EXECUTABLE=/usr/lib/qt5/bin/qmake ../
           make DESTDIR=cmake-package -j4 install
           tree
-          fpm -a arm64 -s dir -t deb -n cmake -v 3.22.5 -C cmake-package -p cmake_VERSION_ARCH.deb
+          fpm -a arm64 -s dir -t deb -n cmake -v 3.13.3 -C cmake-package -p cmake_VERSION_ARCH.deb
 
 
     - name: Push
