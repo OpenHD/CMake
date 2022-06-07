@@ -47,7 +47,8 @@ jobs:
           git checkout 8887ebc69b86606b388272d5c89ce11753bb4804
           apt update
           apt upgrade -y
-          apt install -y cmake tree
+          apt install -y cmake tree ruby-dev
+          gem install fpm
           apt install -y libssl-dev openssl1.0
           apt install -y qt5-default
           mkdir build
