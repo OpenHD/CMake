@@ -1,0 +1,67 @@
+name: Build Jetson ONLINE
+
+on: [push]
+
+env:
+  # Customize the CMake build type here (Release, Debug, RelWithDebInfo, etc.)
+  BUILD_TYPE: Release
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    env:
+      CLOUDSMITH_API_KEY: ${{ secrets.CLOUDSMITH_API_KEY }}
+    steps:
+    - name: Maximize build space
+      uses: easimon/maximize-build-space@master
+      with:
+        root-reserve-mb: 512
+        swap-size-mb: 1024
+        remove-dotnet: 'true'
+        remove-android: 'true'
+        remove-haskell: 'true'
+        overprovision-lvm: 'true'
+    - uses: actions/checkout@v2
+      with:
+        submodules: recursive
+        
+    - name: Emulating Jetson
+      id: qemu
+      uses: pguyot/arm-runner-action@1be4bc9de8a7ba3c1c4f5bf917c438e8dc97904b
+      with:
+        base_image: http://openhdfpv.org/wp-content/BaseImages/Open.HD-2.1-05221841-jetson-nano-4gb-bionic.img.zip
+        cpu: cortex-a53
+        bootpartition:
+        rootpartition: 1
+        image_additional_mb: 4000
+        copy_repository_path: /opt
+        copy_artifact_path: Open.HD
+        import_github_env: true
+        commands: |
+          ls -a
+          cd /opt/CMake
+          apt update
+          apt upgrade -y
+          apt install -y cmake
+          apt install -y libssl-dev openssl1.0
+          apt install -y qt5-default
+          mkdir build
+          cd build
+          cmake -DBUILD_QtDialog=ON -DQT_QMAKE_EXECUTABLE=/usr/lib/qt5/bin/qmake ../cmake-*
+          make DESTDIR=cmake-package -j4 install
+          fpm -a arm64 -s dir -t deb -n cmake -v 3.22.5 -C cmake-package -p cmake_VERSION_ARCH.deb
+
+
+    - name: Push
+      id: push
+      uses: cloudsmith-io/action@master
+      with:
+        api-key: ${{ secrets.CLOUDSMITH_API_KEY }}
+        command: "push"
+        format: "deb"
+        owner: "openhd"
+        repo: "openhd-2-1-alpha"
+        distro: "ubuntu"
+        release: "bionic"
+        republish: "true" # needed ONLY if version is not changing
+        file: "Open.HD/*.deb"
