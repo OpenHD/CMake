@@ -35,7 +35,7 @@ jobs:
         rootpartition: 1
         image_additional_mb: 4000
         copy_repository_path: /opt
-        copy_artifact_path: Open.HD
+        copy_artifact_path: CMake
         import_github_env: true
         commands: |
           ls -a
@@ -58,6 +58,8 @@ jobs:
           make DESTDIR=cmake-package -j4 install
           tree
           fpm -a arm64 -s dir -t deb -n cmake -v 3.13.3 -C cmake-package -p cmake_VERSION_ARCH.deb
+          ls -a
+          tree
 
 
     - name: Push
@@ -72,4 +74,4 @@ jobs:
         distro: "ubuntu"
         release: "bionic"
         republish: "true" # needed ONLY if version is not changing
-        file: "Open.HD/*.deb"
+        file: "CMake/old/*.deb"
