@@ -40,14 +40,11 @@ jobs:
         commands: |
           ls -a
           cd /opt/CMake
-          mkdir old
-          cd old
-          git clone https://github.com/Kitware/CMake
-          cd CMake
-          git checkout 8887ebc69b86606b388272d5c89ce11753bb4804
           apt update
           apt upgrade -y
-          apt install -y cmake tree ruby-dev
+          apt install -y curl ruby-dev
+          curl -1sLf 'https://dl.cloudsmith.io/public/openhd/openhd-2-1-alpha/setup.deb.sh' | sudo -E bash
+          apt install -y cmake
           gem install fpm
           apt install -y libssl-dev openssl1.0
           apt install -y qt5-default
@@ -55,17 +52,15 @@ jobs:
           cd build
           cmake -DBUILD_QtDialog=ON -DQT_QMAKE_EXECUTABLE=/usr/lib/qt5/bin/qmake ../
           make DESTDIR=cmake-package -j4 install
-          fpm -a arm64 -s dir -t deb -n cmake -v 3.13.3 -C cmake-package -p cmake_VERSION_ARCH.deb
-          ls -a
-          realpath cmake_3.13.3_arm64.deb
+          fpm -a arm64 -s dir -t deb -n cmake -v 3.22.5 -C cmake-package -p cmake_VERSION_ARCH.deb
 
     - name: Upload to Github
       uses: 'actions/upload-artifact@v2'
       with:
         name: "QOpenHd"
         path: |
-          CMake/old/CMake/build/*.deb
-          
+          CMake/build/*.deb
+
     - name: Push
       id: push
       uses: cloudsmith-io/action@master
@@ -78,4 +73,4 @@ jobs:
         distro: "ubuntu"
         release: "bionic"
         republish: "true" # needed ONLY if version is not changing
-        file: "CMake/old/CMake/build/*.deb"
+        file: "CMake/build/*.deb"
