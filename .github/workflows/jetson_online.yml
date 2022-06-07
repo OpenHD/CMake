@@ -53,15 +53,12 @@ jobs:
           apt install -y qt5-default
           mkdir build
           cd build
-          tree
           cmake -DBUILD_QtDialog=ON -DQT_QMAKE_EXECUTABLE=/usr/lib/qt5/bin/qmake ../
           make DESTDIR=cmake-package -j4 install
-          tree
           fpm -a arm64 -s dir -t deb -n cmake -v 3.13.3 -C cmake-package -p cmake_VERSION_ARCH.deb
           ls -a
-          tree
-
-
+          realpath cmake_3.13.3_arm64.deb
+          
     - name: Push
       id: push
       uses: cloudsmith-io/action@master
@@ -74,4 +71,4 @@ jobs:
         distro: "ubuntu"
         release: "bionic"
         republish: "true" # needed ONLY if version is not changing
-        file: "CMake/old/*.deb"
+        file: "CMake/old/CMake/*.deb"
