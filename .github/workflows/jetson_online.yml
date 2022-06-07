@@ -43,6 +43,7 @@ jobs:
           mkdir old
           cd old
           git clone https://github.com/Kitware/CMake
+          cd CMake
           git checkout 8887ebc69b86606b388272d5c89ce11753bb4804
           apt update
           apt upgrade -y
