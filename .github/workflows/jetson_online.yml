@@ -48,7 +48,7 @@ jobs:
           mkdir build
           cd build
           tree
-          cmake -DBUILD_QtDialog=ON -DQT_QMAKE_EXECUTABLE=/usr/lib/qt5/bin/qmake ../cmake-*
+          cmake -DBUILD_QtDialog=ON -DQT_QMAKE_EXECUTABLE=/usr/lib/qt5/bin/qmake ../
           make DESTDIR=cmake-package -j4 install
           fpm -a arm64 -s dir -t deb -n cmake -v 3.22.5 -C cmake-package -p cmake_VERSION_ARCH.deb
 
