@@ -1,4 +1,4 @@
-name: Build Jetson ONLINE
+name: Build Pi legacy
 
 on: [push]
 
@@ -29,13 +29,10 @@ jobs:
       id: qemu
       uses: pguyot/arm-runner-action@1be4bc9de8a7ba3c1c4f5bf917c438e8dc97904b
       with:
-        base_image: http://openhdfpv.org/wp-content/BaseImages/Open.HD-2.1-05221841-jetson-nano-4gb-bionic.img.zip
-        cpu: cortex-a53
-        bootpartition:
-        rootpartition: 1
+        base_image: https://downloads.raspberrypi.org/raspios_oldstable_armhf/images/raspios_oldstable_armhf-2022-04-07/2022-04-04-raspios-buster-armhf.img.xz
         image_additional_mb: 4000
         copy_repository_path: /opt
-        copy_artifact_path: CMake
+        copy_artifact_path: Open.HD
         import_github_env: true
         commands: |
           ls -a
@@ -43,7 +40,7 @@ jobs:
           apt update
           apt upgrade -y
           apt install -y curl ruby-dev
-          curl -1sLf 'https://dl.cloudsmith.io/public/openhd/openhd-2-1-alpha/setup.deb.sh' | sudo -E bash
+          curl -1sLf 'https://dl.cloudsmith.io/public/openhd/openhd-2-2-evo/setup.deb.sh' | sudo -E bash
           apt install -y cmake
           gem install fpm
           apt install -y libssl-dev openssl1.0
@@ -52,7 +49,7 @@ jobs:
           cd build
           cmake -DBUILD_QtDialog=ON -DQT_QMAKE_EXECUTABLE=/usr/lib/qt5/bin/qmake ../
           make DESTDIR=cmake-package -j4 install
-          fpm -a arm64 -s dir -t deb -n cmake -v 3.22.5 -C cmake-package -p cmake_VERSION_ARCH.deb
+          fpm -a armhf -s dir -t deb -n cmake -v 3.22.5 -C cmake-package -p cmake_VERSION_ARCH.deb
 
     - name: Upload to Github
       uses: 'actions/upload-artifact@v2'
@@ -70,7 +67,7 @@ jobs:
         format: "deb"
         owner: "openhd"
         repo: "openhd-2-2-evo"
-        distro: "ubuntu"
-        release: "bionic"
+        distro: "raspbian"
+        release: "buster"
         republish: "true" # needed ONLY if version is not changing
         file: "CMake/build/*.deb"
