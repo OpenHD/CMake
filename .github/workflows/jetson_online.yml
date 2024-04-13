@@ -44,7 +44,7 @@ jobs:
           apt update
           apt upgrade -y
           apt install -y cmake ruby-dev
-          gem install fpm
+          # gem install fpm
           apt install -y libssl-dev openssl1.0
           apt install -y qt5-default
           mkdir build
