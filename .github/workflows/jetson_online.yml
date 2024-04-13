@@ -29,7 +29,7 @@ jobs:
       id: qemu
       uses: pguyot/arm-runner-action@1be4bc9de8a7ba3c1c4f5bf917c438e8dc97904b
       with:
-        base_image: http://openhdfpv.org/wp-content/BaseImages/Open.HD-2.1-05221841-jetson-nano-4gb-bionic.img.zip
+        base_image: https://fra1.digitaloceanspaces.com/openhd-images/jetson/2022-02-03%20-%20Open.HD-2.0.0-507-g5cc5c64-jetson-nano-4gb-bionic.7z
         cpu: cortex-a53
         bootpartition:
         rootpartition: 1
@@ -42,8 +42,6 @@ jobs:
           cd /opt/CMake
           apt update
           apt upgrade -y
-          apt install -y curl ruby-dev
-          curl -1sLf 'https://dl.cloudsmith.io/public/openhd/openhd-2-1-alpha/setup.deb.sh' | sudo -E bash
           apt install -y cmake
           gem install fpm
           apt install -y libssl-dev openssl1.0
