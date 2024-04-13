@@ -43,7 +43,7 @@ jobs:
           cd /opt/CMake
           apt update
           apt upgrade -y
-          apt install -y cmake
+          apt install -y cmake ruby-dev
           gem install fpm
           apt install -y libssl-dev openssl1.0
           apt install -y qt5-default
