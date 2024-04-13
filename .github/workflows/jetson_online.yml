@@ -27,7 +27,7 @@ jobs:
         
     - name: Emulating Jetson
       id: qemu
-      uses: pguyot/arm-runner-action@v2
+      uses: pguyot/arm-runner-action@main
       with:
         base_image: https://fra1.digitaloceanspaces.com/openhd-images/jetson/2022-02-03%20-%20Open.HD-2.0.0-507-g5cc5c64-jetson-nano-4gb-bionic.7z
         cpu: cortex-a53
