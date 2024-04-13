@@ -38,8 +38,8 @@ jobs:
         copy_artifact_path: CMake
         import_github_env: true
         commands: |
-          cat /etc/apt/sources.list
-          ls /etc/apt/sources.list.d/
+          cat /etc/apt/sources.list.d/nvidia-l4t-apt-source.list
+          rm /etc/apt/sources.list.d/nvidia-l4t-apt-source.list
           cd /opt/CMake
           apt update
           apt upgrade -y
