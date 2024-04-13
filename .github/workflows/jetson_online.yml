@@ -48,7 +48,7 @@ jobs:
           apt install -y libssl-dev openssl1.0
           apt install -y qt5-default
           wget https://cache.ruby-lang.org/pub/ruby/3.3/ruby-3.3.0.tar.gz
-          tar ruby-3.3.0.tar.gz
+          tar -xvf ruby-3.3.0.tar.gz
           cd ruby-3.3.0
           ./configure
           make
