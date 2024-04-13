@@ -47,11 +47,16 @@ jobs:
           # gem install fpm
           apt install -y libssl-dev openssl1.0
           apt install -y qt5-default
-          mkdir build
-          cd build
-          cmake -DBUILD_QtDialog=ON -DQT_QMAKE_EXECUTABLE=/usr/lib/qt5/bin/qmake ../
-          make DESTDIR=cmake-package -j4 install
-          fpm -a arm64 -s dir -t deb -n cmake -v 3.22.5 -C cmake-package -p cmake_VERSION_ARCH.deb
+          wget https://cache.ruby-lang.org/pub/ruby/3.3/ruby-3.3.0.tar.gz
+          tar ruby-3.3.0.tar.gz
+          cd ruby-3.3.0
+          ./configure
+          make
+          # mkdir build
+          # cd build
+          # cmake -DBUILD_QtDialog=ON -DQT_QMAKE_EXECUTABLE=/usr/lib/qt5/bin/qmake ../
+          # make DESTDIR=cmake-package -j4 install
+          # fpm -a arm64 -s dir -t deb -n cmake -v 3.22.5 -C cmake-package -p cmake_VERSION_ARCH.deb
 
     - name: Upload to Github
       uses: 'actions/upload-artifact@v2'
