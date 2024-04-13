@@ -39,6 +39,7 @@ jobs:
         import_github_env: true
         commands: |
           ls -a
+          sudo sed -i '/https:\/\/repo\.download\.nvidia\.com\/jetson\/<SOC>/d' /etc/apt/sources.list* && grep -rnw '/etc/apt/' -e 'https:\/\/repo\.download\.nvidia\.com\/jetson\/<SOC>'
           cd /opt/CMake
           apt update
           apt upgrade -y
