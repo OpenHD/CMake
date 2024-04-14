@@ -38,14 +38,15 @@ jobs:
         copy_artifact_path: CMake
         import_github_env: true
         commands: |
+
           cat /etc/apt/sources.list.d/nvidia-l4t-apt-source.list
           rm /etc/apt/sources.list.d/nvidia-l4t-apt-source.list
-          curl -1sLf 'https://dl.cloudsmith.io/public/openhd/enterprise/setup.deb.sh' | sudo -E bash
           cd /opt/CMake
           apt update
+          curl -1sLf 'https://dl.cloudsmith.io/public/openhd/enterprise/setup.deb.sh' | sudo -E bash
           apt upgrade -y
-          apt install -y cmake ruby
-          # gem install fpm
+          apt install -y cmake ruby_ohd
+          gem install fpm
           apt install -y libssl-dev openssl1.0
           apt install -y qt5-default
           # mkdir build
